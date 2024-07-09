@@ -14,8 +14,8 @@ terraform {
   #   region         = "ap-southeast-1"
   #   dynamodb_table = "dynamodb-terraform-state-lock"
   #   key            = "abcd-dev/ap-southeast-1/s3/block-funds/terraform.tfstate"
-  #   access_key     = ""
-  #   secret_key     = ""
+  #   demo_access_key     = ""
+  #   demo_secret_key     = ""
   #   role_arn       = "arn:aws:iam::413432xxxx:role/CrossAccountTerraformS3"
   # }
 }
