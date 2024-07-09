@@ -13,10 +13,10 @@ terraform {
   #   bucket         = "pvcb-terraform-state-s3"
   #   region         = "ap-southeast-1"
   #   dynamodb_table = "dynamodb-terraform-state-lock"
-  #   key            = "udnt-dev/ap-southeast-1/s3/block-funds/terraform.tfstate"
-  #   access_key     = "AKIAZDJT7CGCBPXBYVLT"
-  #   secret_key     = "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"
-  #   role_arn       = "arn:aws:iam::413432878807:role/CrossAccountTerraformS3"
+  #   key            = "abcd-dev/ap-southeast-1/s3/block-funds/terraform.tfstate"
+  #   access_key     = ""
+  #   secret_key     = ""
+  #   role_arn       = "arn:aws:iam::413432xxxxxx:role/CrossAccountTerraformS3"
   # }
 }
 
