@@ -26,7 +26,7 @@ terraform {
 
   backend "s3" {
     #dynamodb_table = "dynamodb-terraform-state-lock"
-    bucket = "pvcb-state-s3"
+    bucket = "minhduc-state-s3"
     region = "ap-southeast-1"
     key    = "ciam-dev/ap-southeast-1/eks/terraform.tfstate"
   }
