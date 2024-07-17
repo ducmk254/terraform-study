@@ -1,0 +1,13 @@
+- groups:
+    - system:bootstrappers
+    - system:nodes
+  rolearn: arn:aws:iam::365554857056:role/initial-eks-node-group-20240717151501925300000002
+  username: system:node:{{EC2PrivateDNSName}}
+- groups:
+    - system:masters
+  rolearn: arn:aws:iam::365554857056:policy/ducmk254-read-eks-policy
+  username: eks-super-admin
+- groups:
+    - system:masters
+  rolearn: arn:aws:iam::365554857056:user/k8suser01
+  username: k8suser01

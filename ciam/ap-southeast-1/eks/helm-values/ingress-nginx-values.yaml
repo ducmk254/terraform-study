@@ -1,0 +1,69 @@
+controller:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: k8s-observability
+  podAnnotations:
+    prometheus.io/port: "10254"
+    prometheus.io/scrape: "true"
+  opentelemetry:
+    enabled: true
+  config:
+    log-level: "debug"
+    allow-snippet-annotations: "true"
+
+    enable-opentelemetry: "true"
+    opentelemetry-config: "/etc/nginx/opentelemetry.toml"
+    opentelemetry-operation-name: "$request_method $service_name $uri"
+    opentelemetry-trust-incoming-span: "true"
+    otlp-collector-host: "opentelemetry-collector.k8s-observability"
+    otlp-collector-port: "4317"
+    otel-max-queuesize: "2048"
+    otel-schedule-delay-millis: "5000"
+    otel-max-export-batch-size: "512"
+    otel-service-name: "nginx-proxy" # Opentelemetry resource name
+    otel-sampler: "AlwaysOn" # Also: AlwaysOff, TraceIdRatioBased
+    otel-sampler-ratio: "1.0"
+    otel-sampler-parent-based: "false"
+
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - controller
+            topologyKey: failure-domain.beta.kubernetes.io/zone
+          weight: 100
+  autoscaling:
+    enabled: false
+    maxReplicas: 5
+    minReplicas: 2
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 70
+  extraArgs:
+    default-ssl-certificate: $(POD_NAMESPACE)/default-ingress-nginx-tls
+  ingressClassResource:
+    name: nginx-internal
+  replicaCount: 3
+  resources:
+    limits:
+      cpu: 1
+      memory: 1Gi
+  service:
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold: "2"
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "10"
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "4"
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-unhealthy-threshold: "2"
+      service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+      service.beta.kubernetes.io/aws-load-balancer-target-group-attributes: preserve_client_ip.enabled=true
+      service.beta.kubernetes.io/aws-load-balancer-type: external
+      service.beta.kubernetes.io/load-balancer-source-ranges: 0.0.0.0/0
+fullnameOverride: nginx-ctl-internal
